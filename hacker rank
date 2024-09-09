@@ -1,0 +1,42 @@
+def check(s):
+    # Remove all hyphens for easier validation of digits and length
+    s_clean = s.replace("-", "")
+    
+    # It must start with 4, 5, or 6
+    if s[0] not in '4' and s[0] not in '5' and s[0] not in '6':
+        return False
+    
+    # It must contain exactly 16 digits
+    if len(s_clean) != 16:
+        return False
+    
+    # It must consist only of digits (after removing hyphens)
+    if not s_clean.isdigit():
+        return False
+    
+    # It may have digits in groups of 4, separated by one hyphen
+    groups = s.split('-')
+    for group in groups:
+        if len(group) != 4 and '-' in s:
+            return False
+    
+    # It must not use any other separator like ' ', '_', etc.
+    if ' ' in s or '_' in s:
+        return False
+    
+    # It must not have four or more consecutive repeated digits
+    for i in range(len(s_clean) - 3):
+        if s_clean[i] == s_clean[i + 1] == s_clean[i + 2] == s_clean[i + 3]:
+            return False
+    
+    return True
+
+
+# Input handling
+num = input()
+for i in range(int(num)):
+    s = input()
+    if check(s):
+        print("valid")
+    else:
+        print("invalid")
